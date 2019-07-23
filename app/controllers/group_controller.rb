@@ -2,7 +2,7 @@ class GroupController < ApplicationController
     def new
         @uhw = UsersWorkspace.where(:workspace_id => session[:user]["currentworkspace"])
     end
-    def create
+    def create                
         g = Group.new(name:params[:name],workspace_id:session[:user]["currentworkspace"],owner:session[:user]["id"],types:params[:cbx_hidden])
         g.save
         invites = params[:invites].split(",")
@@ -17,8 +17,7 @@ class GroupController < ApplicationController
        
     end
     def view
-        if session[:user]
-            
+        if session[:user]            
             @uhw = UsersWorkspace.where(:workspace_id => session[:user]["currentworkspace"])
             @group = Group.where(:workspace_id => session[:user]["currentworkspace"])
             @datalist_users = GroupsUser.where(:group_id=>params[:id])

@@ -1,5 +1,6 @@
 class WorkspaceController < ApplicationController
     def index
+        
         @workspace =  Workspace.all
     end
     def create

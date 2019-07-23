@@ -19,5 +19,7 @@ module Chatapp
     # the framework and any gems in your application.
     config.active_record.default_timezone = :local
     config.time_zone = 'Tokyo'
+    config.autoload_paths << Rails.root.join("lib")
+    config.eager_load_paths << Rails.root.join("lib")
   end
 end
