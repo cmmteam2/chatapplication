@@ -1,0 +1,8 @@
+
+<ul>
+<% @individualmessages.each do |individualmessage| %>
+    <li><%= individualmessage.message %></li>
+    <li><%= individualmessage.user.name %></li>
+    <li><%= individualmessage.to %></li>
+<% end %>
+</ul>

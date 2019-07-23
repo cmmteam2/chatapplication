@@ -1,0 +1,78 @@
+# Files in the config/locales directory are used for internationalization
+# and are automatically loaded by Rails. If you want to use locales other
+# than English, add the necessary files in this directory.
+#
+# To use the locales, use `I18n.t`:
+#
+#     I18n.t 'hello'
+#
+# In views, this is aliased to just `t`:
+#
+#     <%= t('hello') %>
+#
+# To use a different locale, set it with `I18n.locale`:
+#
+#     I18n.locale = :es
+#
+# This would use the information in config/locales/es.yml.
+#
+# The following keys must be escaped otherwise they will not be retrieved by
+# the default I18n backend:
+#
+# true, false, on, off, yes, no
+#
+# Instead, surround them with single quotes.
+#
+# en:
+#   'true': 'foo'
+#
+# To learn more, please read the Rails Internationalization guide
+# available at http://guides.rubyonrails.org/i18n.html.
+
+en:
+  chatapp: "Chatapp"
+  hello: "Welcome from my chat application"
+  workspaces: "Workspaces"
+  login: "LOGIN"
+  signup: "Sign Up"
+  email: "Email"
+   #email: "Email"
+  name: "Name"
+  pw: "Password"
+  confirmpw: "Confirm Password"
+  new_user: "New user?"
+  createworkspace: "Create Workspace"
+  channel: "Channels"
+  directmessages: "Direct Messages"
+  setting: "Setting"
+  accsetting: "Account Setting"
+  textformatsetting: "Text Format Setting"
+  usermanagementsetting: "User Management Setting"
+  privacy: "Privacy"
+  logout: "Logout"
+  createnewworkspace: "Create a new workspace"
+  editworkspace: "EDIT WORKSPACE"
+  deleteworkspace: "Delete Workspace"
+  save: "Save"
+  cancel: "Cancel"
+  editchannel: "Edit Channel"
+  deletechannel: "Delete Channel"
+  createchannel: "Create A Channel"
+  p: "Channel are where your memebers communicate. They're best when organized around a topic - #marketing, for example. <a href="#">Learn more</a> about how to create and name your channels for your team."
+  public: "Public"
+  private: "Private"
+  purpose: "Purpose"
+  sendinviteto: "Send Invites to:"
+  invite: "INVITE"
+  remove: "REMOVE"
+  channelupdate: "Channel was successfully updated"
+  successfullyremove: "was successfully removed from the Channel."
+  #remove: "REMOVE"
+  #invite: "INVITE
+  #password: "EDIT WORKSPACE"
+   #confirmpassword: "設定"
+  
+  
+  
+   
+ 

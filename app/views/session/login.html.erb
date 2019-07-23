@@ -1,0 +1,42 @@
+<head>
+    <style>
+    input[type=text],input[type=password]{
+        border:2px solid #CCC;
+        border-bottom:2px solid springgreen;height:40px;border-radius:15px;font-family:time new roman;
+        
+       
+    }
+    input[type=submit]{
+        border-radius:15px;font-family:time new roman;font-size:18px;
+        color:black;
+        font-weight:bold;
+        background-color:springgreen;
+        border:2px solid black;
+        height:40px;
+    }
+    input[type=submit]:hover{
+        color:white;
+        background-color:springgreen;
+    }
+    </style>
+</head>
+<body>  
+<div style="width:60%;display:block;margin:0 auto;padding:5%;">  
+    <%= form_tag("/login", method: "post") do %>
+          
+                
+    <div class="form-group">
+      <%=label_tag(:q,"email")  %> 
+      <input type="text" name="email" class="form-control">
+    </div>
+    <div class="form-group">
+      <%=label_tag(:q,"password")  %> 
+      <input type="password" name="password" class="form-control">
+    </div>
+    <div class="form-group">
+      <%=submit_tag("LOG IN",class: "btn btn-primary form-control")   %> 
+      <%  end  %>
+      <p>New user? <%= link_to "Sign up now!", "/signup" %></p>
+    </div>
+</div>
+</body>

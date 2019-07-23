@@ -1,0 +1,7 @@
+
+<ul>
+<% @workspace.each do |workspace| %>
+    <li><%= workspace.name %></li>
+    <li><%= workspace.user.name %></li>
+<% end %>
+</ul>

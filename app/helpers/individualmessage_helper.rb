@@ -1,0 +1,2 @@
+module IndividualmessageHelper
+end

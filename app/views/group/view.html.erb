@@ -1,0 +1,115 @@
+<head>
+    <style>
+    input[type=submit]{
+        border-radius:15px;font-family:time new roman;font-size:18px;
+        color:black;
+        font-weight:bold;
+        background-color:springgreen;
+        border:2px solid black;
+        height:40px;
+    }
+    .stars{
+        font-size:24px;color:grey;
+    }
+    .stars:hover {
+        color:yellow;
+    }
+    </style>
+</head>
+<body>
+<%= render template:"home/sidenav" %>
+<div style="background-color:grey;position:absolute;right:0;left:0;top:0;bottom:0;padding-left:351px;">
+    <div style="height:10%;width:100%;background-color:#005073">
+        <div class="dropdown" style="float:left;margin-top:2%;margin-left:1%;color:white;"><%= @mygroup.name %>
+            <i style="font-size:24px;color:white;" class="dropdown-toggle fa fa-cog" type="button" data-toggle="dropdown" ></i>
+            <ul class="dropdown-menu">
+            <li><a href="/edit_channel_<%=@mygroup.id %>"><%= t 'editchannel' %></a></li>
+            
+            <li><a href="/dels_<%=@mygroup.id %>"><%= t 'deletechannel' %></a></li>
+            
+            </ul>
+        </div>
+        
+    </div>
+    <div style="width:100%;height:90%;background-color:white;overflow:scroll;padding:10px;">
+    <p id="demo"></p>
+   
+    <% @groupmessage.each do  |gm| %>
+        <% if gm.user_id == session[:user]["id"] %>
+            
+        
+            <div style="border-top:1px solid #EEE;border-bottom:1px solid #EEE;padding:1%;">
+           
+                <div>
+                <img src="images/tom.png" style="width:40px;height:40px;"><%= gm.user.name  %> <%=gm.created_at  %>
+                </div>
+                <div style="text-align:justify;font-size:18px;padding:1% 0;">
+                    <div style="background-color:#0084ff;border-radius:15px;color:white;padding:7px;font-size:18px;display:inline-block;">
+                    <% if gm.message.index("@") %>
+                        <a href="#" style="color:white;border-bottom:1px solid blue;"><%= gm.message %> </a>
+                    <% else %>
+                        <%= gm.message %> 
+                    <% end %>
+                    </div>                   
+                                         
+                    <a href="delmg_<%=gm.id %>"><i class="fa fa-trash"></i></a>      
+                </div>
+            </div>
+        <% else %>
+            <div style="border-top:1px solid #EEE;border-bottom:1px solid #EEE;padding:1%;">
+                <div>
+                    <img src="images/user1.jpg" style="width:40px;height:40px;"><%= gm.user.name%> <%=gm.created_at  %>
+                    <% if gm.favourite == true %>
+                        <i  onclick="gofavourite(this)" star_id="<%=gm.id %>" class="fa fa-star stars" style="float:right;color:yellow"></i>
+                    <% else %>
+                        <i  onclick="gofavourite(this)" star_id="<%=gm.id %>" class="fa fa-star stars" style="float:right;"></i>
+                    <% end %>
+                </div>
+                <div style="text-align:justify;font-size:18px;padding:1% 0;">
+                    <div style="background-color:#dfdfdf;border-radius:15px;color:black;padding:7px;font-size:18px;display:inline-block;">
+                    <% if gm.message.index("@") %>
+                        <a href="#" style="color:#0084ff;border-bottom:1px solid blue;"><%= gm.message %> </a>
+                    <% else %>
+                        <%= gm.message %> 
+                    <% end %>
+                    </div>
+                    <a href="delmg_<%=gm.id %>"><i class="fa fa-trash"></i></a>      
+                </div>
+            </div>
+        <% end %>
+    <% end %>
+    </div>
+    <%= form_tag("/views_#{@mygroup.id}", method: "post",id:"form1" ,style:"transform:translate(0,-100%);") do %>
+        <% mygroup = 0 %>
+        <% @uhg.each do |uhg| %>
+            <% if uhg.user_id == session[:user]["id"] %>
+                <% mygroup = 1 %>
+            <% end %>
+            
+        <% end %>
+        
+        <% if mygroup == 1 %>
+        <input type="input" name="message" class="form-control" list="browsers" style="border:2px solid black;height:40px;border-bottom:2px solid black;border-radius:15px;">
+        
+        <datalist id="browsers">
+        <% @datalist_users.each do |datalist_usr| %>
+            <option value="@<%= datalist_usr.user.name %>">
+        <% end %>
+  
+</datalist>
+        <button style="background-color:white;position:fixed;bottom:2px;right:2px;height:36px;width:60px;font-size:18px;border-radius:0 15px 15px 0;border:none;"><i class="fa fa-paper-plane" style="color:black;"></i></button>
+        <% end %>
+    <% end %>
+    <%= form_tag("/gostar", method: "post",id:"form2" ,style:"transform:translate(0,-100%);") do %>
+        <input type="hidden" name="star_id" id="star_hidden" >
+    <% end %>
+</div>
+<script>
+            function gofavourite(a){
+                var demo = a.getAttribute("star_id");
+                document.getElementById("star_hidden").value = demo;
+                document.getElementById("demo").innerHTML = document.getElementById("star_hidden").value;
+                document.getElementById("form2").submit()
+            }
+</script>
+</body>

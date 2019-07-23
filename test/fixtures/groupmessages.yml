@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  group_id: 1
+  message: MyString
+  user_id: 1
+  attachment: MyString
+  unread: false
+  favourite: false
+  group: one
+
+two:
+  group_id: 1
+  message: MyString
+  user_id: 1
+  attachment: MyString
+  unread: false
+  favourite: false
+  group: two

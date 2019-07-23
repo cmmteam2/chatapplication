@@ -1,0 +1,109 @@
+<head>
+    <style>
+    input[type=text],input[type=password]{
+        border:2px solid #CCC;
+        border-bottom:2px solid springgreen;height:40px;border-radius:15px;font-family:time new roman;
+    }
+    input[type=submit]{
+        border-radius:15px;font-family:time new roman;font-size:18px;
+        color:black;
+        font-weight:bold;
+        background-color:springgreen;
+        border:2px solid black;
+        height:40px;
+    }
+    input[type=submit]:hover{
+        color:white;
+        background-color:springgreen;
+    }
+    body,html{
+        width:100%;
+        height:100%;
+        background-image: linear-gradient(to bottom, springgreen , black);
+    }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+
+</head>
+<body>
+<% if session[:user_id] %>
+  <%= render template:"home/sidenav" %>
+  
+
+  <div style="background-color:grey;position:absolute;right:0;left:0;top:0;bottom:0;padding-left:351px;">
+    <div style="width:100%;height:100%;background-color:grey;overflow:scroll;color:red;font-size:20px;">
+    <% @uhw.each do |a| %>
+      <%= a.user.name %>
+    <% end %>
+    </div>
+    <input type="input" class="form-control" style="transform:translate(0,-100%);border:2px solid springgreen;height:40px;border-bottom:2px solid black;border-radius:15px;">
+    <button style="position:fixed;bottom:2px;right:2px;height:36px;width:40px;font-size:18px;"><i class="fa fa-paper-plane"></i></button>
+      
+  </div>
+<% else %>
+<button style="position:fixed;z-index:999;right:2%;top:2%;" style="margin-top:2px;" class="btn btn-success btn-lg" data-toggle="modal" data-target="#myModal"><%= t 'login' %></button>
+<% if session[:usr_id] %>
+
+<div class="dropdown" style="position:fixed;z-index:999;right:150px;top:2%;" style="margin-top:2px;">
+            <button class="btn btn-danger btn-lg" class="dropdown-toggle fa fa-cog" type="button" data-toggle="dropdown" > <%= t 'workspaces' %> </button>
+            
+            <ul class="dropdown-menu" style="background-color:salmon">
+              <% @myworkspaces.each do |w| %>
+                <li style="font-size:18px;"><a href="/loginworkspace_<%= w.id %>" style="color:black;text-align:center;"><%=w.workspace.name%></a></li>
+              <% end %>
+            </ul>
+</div>
+<% end %>
+<div class="row" style="width:100%;height:100%;">
+    <div class="col-md-6" style="height:100%;background-color:springgreen;position:absolute;top:0;bottom:0;left:0;padding-top:5%;">
+    
+    
+
+        <div style="">
+          <img  src="images/a512.png" style="width:80%;display:block;margin:0 auto;">
+          <div style="width:80%;display:block;margin:0 auto;padding:40px;font-family:American Typewriter,serif;font-size:25px;letter-spacing:1px;color:blue;">
+        <%= t 'hello' %> 
+          </div>
+        </div>
+    </div>
+    <div class="col-md-6" id="bgdiv" style="height:100%;font-size:18px;padding:10% 0 5% 0;font-family:Stencil Std, fantasy;position:absolute;top:0;bottom:0;right:0;background-color:white;" >
+    <div style="width:80%;display:block;margin:0 auto;padding-top:5%;padding:3% 3%;box-shadow:4px 4px 13px black;">
+        <%= form_tag("/signup", method: "post") do %>
+        <div class="form-group">
+        <%=label_tag t 'name' %>
+            <input id="a" type="text" name="name" class="form-control">
+        </div>  
+                
+        <div class="form-group">
+        <%=label_tag t 'email' %>
+          <input type="text" name="email" class="form-control">
+        </div>
+        <div class="form-group">
+        <%=label_tag t 'pw' %>
+          <input type="password" name="password" class="form-control">
+        </div>
+        <div class="form-group">
+        <%=label_tag t 'confirmpw' %>
+          <input type="password" name="confirm_password" class="form-control">
+        </div>
+        <div style="text-align:center;" class="form-group">
+        <div><%= submit_tag t'signup' %></div>
+         
+          <%  end  %>
+        </div>
+    </div>
+</div>
+
+<% end %>
+<script>
+$(document).ready(function(){
+  $("input").focus(function(){
+    $(this).css({"border":"2px solid black","border-bottom":"2px solid limegreen"});
+  });
+  $("input").focusout(function(){
+    $(this).css({"border":"2px solid #CCC","border-bottom":"2px solid springgreen"});
+  });
+});
+
+</script>
+</body>

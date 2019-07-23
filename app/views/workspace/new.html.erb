@@ -1,0 +1,22 @@
+<div class="row" style="position:absolute;top:0;bottom:0;left:0;right:0;">
+    <div class="col-md-4" style="background-color:white;height:100%;">
+        <div style="width:80%;display:block;margin:0 auto;position:relative;top:50%;transform:translate(0,-50%)">
+            <label style="font-size:26px" ><%= t 'createnewworkspace' %></label><br><br>
+            <lable style="font-size:18px"><%= t 'name' %></label>
+            <%= form_tag("/createworkspace", method: "post") do %>
+            <input class="form-control" type="text" name="name" style="">
+            <br>
+            <br>
+            <div>
+            <input type="submit" name="submit" value="<%= t 'createnewworkspace' %>" class="form-control btn btn-success">
+            </div>
+            <% end %>
+                  
+        </div>
+    </div>
+    <div class="col-md-8" style="background-color:springgreen;height:100%;">
+    <img src="images/a512.png" style="width:50%;display:block;margin:0 auto;padding-top:19%;">
+    </div> 
+    
+
+</div>

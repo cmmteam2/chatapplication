@@ -1,0 +1,195 @@
+<head>
+    <style>
+    body{
+      background-color:#f2f2f2;
+    }
+    input[type=text]{
+        border:2px solid #CCC;
+        border-bottom:2px solid springgreen;height:40px;border-radius:15px;font-family:time new roman;
+    }
+    input[type=submit],input[type=button]{
+        border-radius:15px;font-family:time new roman;font-size:18px;
+        color:black;
+        font-weight:bold;
+        background-color:springgreen;
+        border:2px solid black;
+        height:40px;
+    }
+    .switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+.addinvites{
+  display:block;
+}
+.cancelinvites{
+  display:none;
+  
+}
+
+    </style>
+</head>
+<body>
+    <div style="background-color:white;width:80%;display:block;margin:0 auto;font-family:Arial, sans-serif;padding:5%;">
+        <h3>Create a Channel</h3>
+        <p style="font-size:18px;">Channel are where your memebers communicate. They're best when organized around a topic - #marketing, for example. <a href="#">Learn more</a> about how to create and name your channels for your team.
+        </p>
+        <%= form_tag("/createchannel", method: "post") do %>
+        
+        <label class="switch">
+            <input id="type_cbx" name="cbx" value="s" type="checkbox" onchange="public_private()" checked>
+            <span class="slider round"></span>
+        </label>
+        <span id="demo"><b>Public</b></span>
+            <input type="hidden" name="cbx_hidden" value="public" id="cbx_hidden">
+            <div class="form-group">
+                <%=label_tag(:q,"Name")  %> 
+                <input id="a" type="text" name="name" class="form-control">
+            </div>  
+                    
+            <div class="form-group">
+              <%=label_tag(:q,"Purpose")  %> 
+              <input type="text" name="email" class="form-control">
+            </div>
+            <div class="form-group">
+              <%=label_tag(:q,"Send invites to:")  %> 
+              <input type="text" name="invites" id="invites" class="form-control">
+            </div>
+            <div class="form-group">
+              <div class="row">
+                <div class="col-sm-10">
+                  <% @uhw.each do |a| %>
+                      <div style="background-color:springgreen;color:black;padding:2%;height:70px;font-size:18px;"><%= a.user.name %>(<%= a.user.email %>)
+                      </div>
+                      <hr>
+                  <% end %>
+                </div>
+                <div class="col-sm-2">
+                    <% i=0 %>
+                    <% @uhw.each do |a| %>
+                      <div class="addinvites" style="padding:2%;height:70px;font-size:18px;"><div class="btn btn-primary form-control" onclick="addinvites(this)" index="<%= i %>" value="<%= a.user.email %>">INVITE</div>
+                      </div>
+                    
+                      <div class="cancelinvites" style="padding:2%;height:70px;font-size:18px;"><div class="btn btn-default form-control" onclick="cancelinvites(this)" index="<%= i %>" value="<%= a.user.email %>">CANCEL</div>
+                      </div>
+                      
+                      <% i = i+1 %>
+                      <hr>
+                    <% end %>
+                </div>
+                <p id="demos"></p>
+              </div>
+            </div>
+            <div class="form-group" style="padding:0 30%;">
+            <div class="row">
+                <div class="col-sm-6">
+                <input class="form-control" type="button" onclick="window.location.replace('/')" value="Cancel" />
+                </div>
+                <div class="col-sm-6">
+                    <input type="submit" value="CREATE" class="form-control" > 
+                </div>
+            </div>
+              <%  end  %>
+            </div>
+    </div>
+    <script>
+        function public_private(){
+            if(document.getElementById("type_cbx").checked){
+                document.getElementById("demo").innerHTML = "Public";
+                document.getElementById("cbx_hidden").value = "public";
+            }
+            else{
+                document.getElementById("demo").innerHTML = "Private";
+                document.getElementById("cbx_hidden").value = "private";
+            }
+        }
+        function addinvites(a){
+          var b= a.getAttribute("value");
+          var index = a.getAttribute("index");
+          if(document.getElementById("invites").value == ""){
+              document.getElementById("invites").value = b;
+          }
+          else{
+              document.getElementById("invites").value += ","+b;    
+          }
+          document.getElementsByClassName('cancelinvites')[index].style.display = "block";
+          document.getElementsByClassName('addinvites')[index].style.display = "none";
+
+        }
+        function cancelinvites(a){
+          var b= a.getAttribute("value");
+          var text = document.getElementById("invites").value;
+          var index = a.getAttribute("index");
+          if(text.indexOf(b) == 0){
+            if(text.indexOf(",") == -1){
+              document.getElementById("invites").value = text.replace(b,"");
+            }else{
+              document.getElementById("invites").value = text.replace(b+",","");
+            }
+            
+          }
+          else{
+            document.getElementById("invites").value = text.replace(","+b,"");
+          }
+          
+          
+          document.getElementsByClassName('cancelinvites')[index].style.display = "none";
+          document.getElementsByClassName('addinvites')[index].style.display = "block";
+        }
+    </script>
+</body>
