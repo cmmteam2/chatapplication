@@ -14,6 +14,7 @@ class SessionController < ApplicationController
         session[:fullpath] = request.protocol
         session[:fullpath] += request.host_with_port
         session[:fullpath] += request.fullpath
+        session[:lan] = request.fullpath
         render template:"home/index"
     end
     def login
@@ -21,38 +22,44 @@ class SessionController < ApplicationController
     end
     def create
         user = User.find_by(email: params[:email].downcase)
-        workspaces = Workspace.where(:owner => user.id)
-        currentworkspace = UsersWorkspace.find_by(user_id:user.id,workspace_id:user.currentworkspace)
-        if currentworkspace.nil?
-                render template:"workspace/new"
-                session[:user]= user
+        if user.nil?
+                flash[:danger] = "emailnotfound"
+                redirect_back fallback_location: root_path
+        else
+                workspaces = Workspace.where(:owner => user.id)
+                currentworkspace = UsersWorkspace.find_by(user_id:user.id,workspace_id:user.currentworkspace)
+                if currentworkspace.nil?
+                        render template:"workspace/new"
+                        session[:user]= user
+                        
+                        session[:user_id] = user.id
+                    else
+                        user.currentworkspace = currentworkspace.workspace_id
+                        user.save
+                        if user && user.authenticate(params[:password])
+                            #userhw = Userhasworkspace.find_by(user_id:user.id)
+                            #user.currentworkspace = userhw.workspace_id
+                            #user.save  
+                            
+                            #uhw = Userhasworkspace.where(:workspace_id=> user.currentworkspace)
+                            session[:currentworkspace] = currentworkspace.workspace.name
+                            session[:currentworkspace_id] = currentworkspace.workspace.id
+                            session[:workspace_owner] = currentworkspace.workspace.owner
+                            session[:workspaces] = workspaces
+                            session[:user_id] = user.id
+                            session[:usr_id] = user.id
+                            session[:user_name] = user.name
+                            session[:user]= user
+                            #session[:uhw] = uhw
+                            a = "#{session[:fullpath]}"
+                            redirect_to "#{a}"
+                        else
+                            flash[:danger] = "passwordinvalid"
+                            redirect_back fallback_location: root_path
+                        end
+                    end
                 
-                session[:user_id] = user.id
-            else
-                user.currentworkspace = currentworkspace.workspace_id
-                user.save
-                if user && user.authenticate(params[:password])
-                    #userhw = Userhasworkspace.find_by(user_id:user.id)
-                    #user.currentworkspace = userhw.workspace_id
-                    #user.save  
-                    
-                    #uhw = Userhasworkspace.where(:workspace_id=> user.currentworkspace)
-                    session[:currentworkspace] = currentworkspace.workspace.name
-                    session[:currentworkspace_id] = currentworkspace.workspace.id
-                    session[:workspace_owner] = currentworkspace.workspace.owner
-                    session[:workspaces] = workspaces
-                    session[:user_id] = user.id
-                    session[:usr_id] = user.id
-                    session[:user_name] = user.name
-                    session[:user]= user
-                    #session[:uhw] = uhw
-                    a = "#{session[:fullpath]}"
-                    redirect_to "#{a}"
-                else
-                    render html:"Not success"
-                end
             end
-        
         
 
     end
@@ -75,7 +82,7 @@ class SessionController < ApplicationController
                 session[:usr_id] = user.id
                 session[:user_name] = user.name
                 session[:user]= user
-                redirect_to "/"
+                redirect_to "#{session[:fullpath]}"
         end
 
     end

@@ -19,8 +19,8 @@
       body{
       }
       
-      a{
-        
+      a.language:hover{
+        background-color:#449d44;
       }
   </style>
   </head>
@@ -47,12 +47,17 @@
         </ul>
       </li>
       -->
-      
-      <button class="btn btn-success" style="position:fixed;left:2%;top:2%;z-index:999"><% if I18n.locale == I18n.default_locale %>
-      <li style="float:right;color:white;font-size:30px;"><%=link_to "Japan",{:locale=>'ja'}%></li>
-      <%else%>
-      <li style="float:right;color:white;font-size:30px;"><%=link_to "English",{:locale=>'en'}%></li>
-      <%end%></button>
+      <% if session[:user_id] %>
+      <% else %>
+        <div style="position:fixed;left:2%;top:2%;z-index:999">
+        <span style="font-size:18px;">Language :</span>
+        <button class="btn btn-success" ><% if I18n.locale == I18n.default_locale %>
+        <li style="float:right;color:white;"><%=link_to "Japan",{:locale=>'ja'},style:"font-size:18px;color:white;", class:"language"%></li>
+        <%else%>
+        <li style="float:right;color:white;"><%=link_to "English",{:locale=>'en'},style:"font-size:18px;color:white;", class:"language"%></li>
+        <%end%></button>
+        </div>    
+      <% end %>
     </ul>
     <ul class="nav navbar-nav" style="float:right">
     <% if session[:user_id] %>

@@ -44,7 +44,7 @@
 <button style="position:fixed;z-index:999;right:2%;top:2%;" style="margin-top:2px;" class="btn btn-success btn-lg" data-toggle="modal" data-target="#myModal"><%= t 'login' %></button>
 <% if session[:usr_id] %>
 
-<div class="dropdown" style="position:fixed;z-index:999;right:150px;top:2%;" style="margin-top:2px;">
+            <div class="dropdown" style="position:fixed;z-index:999;right:150px;top:2%;" style="margin-top:2px;">
             <button class="btn btn-danger btn-lg" class="dropdown-toggle fa fa-cog" type="button" data-toggle="dropdown" > <%= t 'workspaces' %> </button>
             
             <ul class="dropdown-menu" style="background-color:salmon">
@@ -55,18 +55,24 @@
 </div>
 <% end %>
 <div class="row" style="width:100%;height:100%;">
-    <div class="col-md-6" style="height:100%;background-color:springgreen;position:absolute;top:0;bottom:0;left:0;padding-top:5%;">
+
+<div class="col-md-6" style="height:100%;background-color:springgreen;position:absolute;top:0;bottom:0;left:0;padding-top:5%;">
     
     
 
         <div style="">
-          <img  src="images/a512.png" style="width:80%;display:block;margin:0 auto;">
+          <%= link_to image_tag("a512.png", alt: "background image",style:"width:80%;display:block;margin:0 auto;"),
+          '' %>
           <div style="width:80%;display:block;margin:0 auto;padding:40px;font-family:American Typewriter,serif;font-size:25px;letter-spacing:1px;color:blue;">
         <%= t 'hello' %> 
           </div>
         </div>
     </div>
     <div class="col-md-6" id="bgdiv" style="height:100%;font-size:18px;padding:10% 0 5% 0;font-family:Stencil Std, fantasy;position:absolute;top:0;bottom:0;right:0;background-color:white;" >
+    <% flash.each do |name, msg| %>
+      <%= content_tag :div, t("#{msg}"), class: "alert alert-danger",style:"margin:-10% 2% 2% 2%;" %>
+    <% end %>
+
     <div style="width:80%;display:block;margin:0 auto;padding-top:5%;padding:3% 3%;box-shadow:4px 4px 13px black;">
         <%= form_tag("/signup", method: "post") do %>
         <div class="form-group">

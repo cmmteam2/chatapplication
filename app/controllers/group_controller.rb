@@ -59,7 +59,7 @@ class GroupController < ApplicationController
                 uhg.save
             }
         end 
-        flash[:notice] =  t('channelupdate')
+        flash[:notice] =  "channelupdate"
         redirect_back fallback_location: root_path
     end
     def destroy
@@ -72,7 +72,7 @@ class GroupController < ApplicationController
         uhg = GroupsUser.find(params[:id])
         name = uhg.user.name
         uhg.delete
-        flash[:notice] = "#{name}was successfully removed from the Channel"
+        flash[:notice] = "removechannelmember"
         redirect_back fallback_location: root_path
     end
     def gostar

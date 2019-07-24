@@ -35,7 +35,10 @@ ja:
    invite: "誘う"
    remove: "削除する"
    channelupdate: "チャンネルは正常に更新されました"
-   successfullyremove: "チャンネルから削除されました。"
+   removechannelmember: "チャンネルから削除されました。"
+   emailnotfound: "メールがない。"
+   passwordinvalid: "パスワードが間違います。"
+
    #remove: "削除する"
    #invite: "誘う"
    # password: "パスワード"

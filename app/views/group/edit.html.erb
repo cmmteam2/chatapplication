@@ -94,7 +94,7 @@ input:checked + .slider:before {
 </head>
 <body>
 <% flash.each do |name, msg| %>
-  <%= content_tag :div, msg, class: "alert alert-info" %>
+  <%= content_tag :div, t("#{msg}"), class: "alert alert-info" %>
 <% end %>
     <div style="background-color:white;width:80%;display:block;margin:0 auto;font-family:Arial, sans-serif;padding:5%;">
         <h3><%= t 'createchannel' %></h3>
@@ -220,7 +220,7 @@ input:checked + .slider:before {
             <div class="row">
                 <div class="col-sm-6">
                     
-                    <input class="form-control" type="button" onclick="window.location.replace('/')" value="<%= t 'cancel' %>" />
+                  <a href="<%= session[:fullpath]%>"><input class="form-control" type="button" value="<%= t 'cancel' %>" /></a>
                 </div>
                 <div class="col-sm-6">
                     <input type="submit" value="<%= t 'save' %>" class="form-control" > 
@@ -232,11 +232,11 @@ input:checked + .slider:before {
     <script>
         function public_private(){
             if(document.getElementById("type_cbx").checked){
-                document.getElementById("demo").innerHTML = "Public";
-                document.getElementById("cbx_hidden").value = "public";
+                document.getElementById("demo").innerHTML = "<%= t 'public' %>";
+                document.getElementById("cbx_hidden").value = "<%= t 'public' %>";
             }
             else{
-                document.getElementById("demo").innerHTML = "Private";
+                document.getElementById("demo").innerHTML = "<%= t 'private' %>";
                 document.getElementById("cbx_hidden").value = "private";
             }
         }

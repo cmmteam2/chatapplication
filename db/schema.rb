@@ -12,7 +12,7 @@
 
 ActiveRecord::Schema.define(version: 2019_07_05_095518) do
 
-  create_table "groupmessages", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "groupmessages", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.bigint "group_id"
     t.string "message"
     t.integer "user_id"
@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(version: 2019_07_05_095518) do
     t.index ["group_id"], name: "index_groupmessages_on_group_id"
   end
 
-  create_table "groups", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "groups", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.string "name"
     t.string "types"
     t.bigint "workspace_id"
@@ -34,7 +34,7 @@ ActiveRecord::Schema.define(version: 2019_07_05_095518) do
     t.index ["workspace_id"], name: "index_groups_on_workspace_id"
   end
 
-  create_table "groups_users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "groups_users", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "group_id"
     t.datetime "created_at", null: false
@@ -43,7 +43,7 @@ ActiveRecord::Schema.define(version: 2019_07_05_095518) do
     t.index ["user_id"], name: "index_groups_users_on_user_id"
   end
 
-  create_table "groupthreadmessages", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "groupthreadmessages", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.string "message"
     t.bigint "groupmessage_id"
     t.integer "user_id"
@@ -52,7 +52,7 @@ ActiveRecord::Schema.define(version: 2019_07_05_095518) do
     t.index ["groupmessage_id"], name: "index_groupthreadmessages_on_groupmessage_id"
   end
 
-  create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.string "name"
     t.string "email"
     t.string "password_digest"
@@ -63,7 +63,7 @@ ActiveRecord::Schema.define(version: 2019_07_05_095518) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "users_workspaces", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "users_workspaces", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "workspace_id"
     t.datetime "created_at", null: false
@@ -72,7 +72,7 @@ ActiveRecord::Schema.define(version: 2019_07_05_095518) do
     t.index ["workspace_id"], name: "index_users_workspaces_on_workspace_id"
   end
 
-  create_table "workspaces", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "workspaces", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.string "name"
     t.integer "owner"
     t.datetime "created_at", null: false
