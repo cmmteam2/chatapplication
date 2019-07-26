@@ -18,9 +18,11 @@
   <style>
       body{
       }
-      
+      a.language{
+        text-decoration:none;
+      }
       a.language:hover{
-        background-color:#449d44;
+        background-color:#ec971f;
       }
   </style>
   </head>
@@ -47,6 +49,7 @@
         </ul>
       </li>
       -->
+      <!--
       <% if session[:user_id] %>
       <% else %>
         <div style="position:fixed;left:2%;top:2%;z-index:999">
@@ -58,6 +61,7 @@
         <%end%></button>
         </div>    
       <% end %>
+      -->
     </ul>
     <ul class="nav navbar-nav" style="float:right">
     <% if session[:user_id] %>
@@ -101,7 +105,7 @@
                 <div style="text-align:center;" class="form-group">
                   <%=submit_tag(t 'login',class: "btn btn-primary form-control")   %> 
                   <%  end  %>
-                  <p><%=t 'new_user'%> <%= link_to t('signup'), "/signup" %></p>
+                  
                 </div>
             </div>
           </div>

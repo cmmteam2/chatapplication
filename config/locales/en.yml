@@ -69,7 +69,12 @@ en:
   removechannelmember: "Successfully removed from the Channel."
   emailnotfound: "Email not found"
   passwordinvalid: "Password Invalid"
-  
+  invitemember: "Invite Members"
+  wsinvitemember: "Invite Workspace Members"
+  invitationalert: "Successfully Invited!"
+  successful: "Successful!"
+  notsuccessful: "Sorry for not Successful, Try again!"
+  successfullydelete: "Successfully Deleted!"
   #remove: "REMOVE"
   #invite: "INVITE
   #password: "EDIT WORKSPACE"

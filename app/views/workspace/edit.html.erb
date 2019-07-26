@@ -11,6 +11,10 @@
         <div>
         
         <input type="submit" name="submit" value="<%= t 'save' %>" class="form-control btn btn-success">
+        <hr>
+            <a href="<%= session[:fullpath]%>">
+                <input type="button"  value="<%= t 'cancel' %>" class="form-control btn btn-info">
+            </a>
         </div>
         <% end %>
     </div>

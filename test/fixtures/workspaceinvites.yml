@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  email: MyString
+  confirm: false
+  workspace_id: 1
+  workspace: one
+
+two:
+  email: MyString
+  confirm: false
+  workspace_id: 1
+  workspace: two

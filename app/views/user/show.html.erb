@@ -1,19 +1,13 @@
 <head>
-        body{
-            #background-color:#37d993;
-            background-image: linear-gradient(to right, springgreen , white);
-        }
-    </style>
 </head>
 <body>
-<%= render template:"home/sidenav" %>
 <div style="background-color:#f2f2f2;max-width: 500px;display:block;margin:0 auto;padding-bottom:2%;box-shadow:3px 3px 12px black;">
 <div style="">
     <div style="padding:10% 5%;background-color:#333b3e;">
-        <!--
-        <img src="images/user1.jpg" style="width:80%;border-radius:50%;display:block;margin:0 auto;">
-        -->
-        <div style="width:80%;height:300px;border-radius:50%;display:block;margin:0 auto;background-color:white;">
+        
+        <%= link_to image_tag("user1.jpg", alt: "background image",style:"width:80%;height:300px;border-radius:50%;display:block;margin:0 auto;"),
+          '' %>
+        <div style="background-color:white;">
         </div>
         <span class="picture">
         <%= form_tag("/users/#{@user.id}", method: "post",id:"myform") do %>

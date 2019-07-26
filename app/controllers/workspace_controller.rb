@@ -10,12 +10,15 @@ class WorkspaceController < ApplicationController
         u = User.find(session[:user]["id"])
         u.currentworkspace = w.id
         u.save
+        u = User.find(session[:user]["id"])
+        session[:user] = u
         uhw = UsersWorkspace.new(user_id:session[:user]["id"],workspace_id:w.id)
         uhw.save
         currentworkspace = UsersWorkspace.find_by(user_id:session[:user]["id"])
-        
+        session[:usr_id] = session[:user]["id"]
         session[:currentworkspace] = currentworkspace.workspace.name
         session[:currentworkspace_id] = currentworkspace.workspace.id
+        session[:workspace_owner] = currentworkspace.workspace.owner
         flash[:success] = "Successfully Created."
 
         @uhgs= GroupsUser.all
@@ -25,7 +28,8 @@ class WorkspaceController < ApplicationController
         @currentworkspace = UsersWorkspace.find_by(user_id: session[:user]["id"],workspace_id: session[:user]["currentworkspace"])
         
         session[:uhw] = @uhw
-        redirect_to "/"
+        a = "#{session[:fullpath]}"
+        redirect_to "#{a}"
         
     end
     def edit
@@ -37,7 +41,8 @@ class WorkspaceController < ApplicationController
         session[:currentworkspace] = w.name
         w.owner = session[:user]["id"]
         w.save
-        redirect_to "/"
+        a = "#{session[:fullpath]}"
+        redirect_to "#{a}"
     end
     def destroy
         
@@ -50,7 +55,31 @@ class WorkspaceController < ApplicationController
         session.delete(:user)
     
         
-        redirect_to "/"
+        a = "#{session[:fullpath]}"
+        redirect_to "#{a}"
 
+    end
+    def invite
+        if params[:email]
+            wi = Workspaceinvite.new(email:params[:email],confirm:"false",workspace_id:session[:user]["currentworkspace"])
+            if wi.save
+                flash[:notice] =  "invitationalert"
+                redirect_back fallback_location: root_path
+            else
+                flash[:notice] =  "notsuccessful"
+                redirect_back fallback_location: root_path
+            end
+        else
+
+        end
+    end
+    def confirm
+    end
+    def removeworkspacemember
+        uhw = UsersWorkspace.find(params[:uhw_id])
+        if uhw.destroy
+            flash[:notice] =  "successfullydelete"
+            redirect_back fallback_location: root_path
+        end
     end
 end

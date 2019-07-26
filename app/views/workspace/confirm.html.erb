@@ -1,0 +1,57 @@
+<style>
+    
+a.language:hover{
+    background-color:#449d44;
+  }
+</style>
+<div class="row" style="position:absolute;top:0;bottom:0;left:0;right:0;">
+<div style="position:fixed;left:2%;top:2%;z-index:999">
+        <span style="font-size:18px;">Language :</span>
+        <button class="btn btn-success" ><% if I18n.locale == I18n.default_locale %>
+        <li style="float:right;color:white;list-style-type:none;"><%=link_to "Japan",{:locale=>'ja'},style:"font-size:18px;color:white;", class:"language"%></li>
+        <%else%>
+        <li style="float:right;color:white;list-style-type:none;"><%=link_to "English",{:locale=>'en'},style:"font-size:18px;color:white;", class:"language"%></li>
+        <%end%></button>
+        </div>  
+    <div class="col-md-4" style="background-color:white;height:100%;">
+        <div style="width:80%;display:block;margin:0 auto;position:relative;top:50%;transform:translate(0,-50%)">
+            <label style="font-size:26px" ><%= t 'signup' %></label><br><br>
+            <lable style="font-size:18px"></label>
+            <%= form_tag("/signup", method: "post") do %>
+                <div class="form-group">
+                <%=label_tag t 'name' %>
+                    <input id="a" type="text" name="name" class="form-control">
+                </div>  
+                        
+                <div class="form-group">
+                <%=label_tag t 'email' %>
+                  <input type="text"  class="form-control" value="<%= session[:inviteemail] %>" disabled>
+                  <input type="hidden" name="email" value="<%= session[:inviteemail] %>" >
+                </div>
+                <div class="form-group">
+                <%=label_tag t 'pw' %>
+                  <input type="password" name="password" class="form-control">
+                </div>
+                <div class="form-group">
+                <%=label_tag t 'confirmpw' %>
+                  <input type="password" name="confirm_password" class="form-control">
+                </div>
+                <div style="text-align:center;" class="form-group">
+                <hr>
+                <input type="submit" name="submit" value="<%= t 'signup' %>" class="form-control btn btn-success" >
+                <hr>
+                <a href="<%= session[:fullpath]%>">
+                    <input type="button"  value="<%= t 'cancel' %>" class="form-control btn btn-info">
+                </a>
+                
+                </div>
+            <%  end  %>   
+        </div>
+    </div>
+    <div class="col-md-8" style="background-color:springgreen;height:100%;">
+    <%= link_to image_tag("a512.png", alt: "background photo",style:"width:50%;display:block;margin:0 auto;padding-top:19%;"),
+              '' %>
+    </div> 
+    
+
+</div>

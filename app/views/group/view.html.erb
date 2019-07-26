@@ -11,16 +11,60 @@
     .stars{
         font-size:24px;color:grey;
     }
+    .reply{
+        margin:0 15px;
+        font-size:24px;
+    }
+    .reply:hover{
+        
+        font-size:30px;
+    }
     .stars:hover {
         color:yellow;
     }
+    
+    .messagedelete{
+        text-decoration:none;
+    }
+    .messagedelete i{
+        float:right;font-size:24px;
+    }
+    .messagedelete:hover i{
+        background-color:white;
+        font-size:30px;
+    }
+    .replytext{
+        width: 130px;
+        box-sizing: border-box;
+        border: 2px solid #ccc;
+        border-radius: 4px;
+        font-size: 16px;
+        background-color: white;
+        background-image:image-url('reply.png');
+        background-position: 10px 10px; 
+        background-repeat: no-repeat;
+        padding: 12px 20px 12px 40px;
+        -webkit-transition: width 0.4s ease-in-out;
+        transition: width 0.4s ease-in-out;
+        display:none;
+    }
+    .replytext:focus {
+        width: 100%;
+    }
+    .replyhr{
+        display:none;
+        border:none;
+    }
+    .threadmessagebox{
+        display:none;
+    }
     </style>
 </head>
-<body>
+<body onload="onloadfunction()">
 <%= render template:"home/sidenav" %>
 <div style="background-color:grey;position:absolute;right:0;left:0;top:0;bottom:0;padding-left:351px;">
     <div style="height:10%;width:100%;background-color:#005073">
-        <div class="dropdown" style="float:left;margin-top:2%;margin-left:1%;color:white;"><%= @mygroup.name %>
+        <div class="dropdown" style="float:left;margin-top:2%;margin-left:1%;color:white;">
             <i style="font-size:24px;color:white;" class="dropdown-toggle fa fa-cog" type="button" data-toggle="dropdown" ></i>
             <ul class="dropdown-menu">
             <li><a href="/edit_channel_<%=@mygroup.id %>"><%= t 'editchannel' %></a></li>
@@ -31,9 +75,10 @@
         </div>
         
     </div>
-    <div style="width:100%;height:90%;background-color:white;overflow:scroll;padding:10px;">
+    
+    <div id="messagebox" style="width:100%;height:90%;background-color:white;overflow:scroll;padding:10px;">
     <p id="demo"></p>
-   
+    <% anothermessagecount = 0 %>
     <% @groupmessage.each do  |gm| %>
         <% if gm.user_id == session[:user]["id"] %>
             
@@ -43,6 +88,7 @@
                 <div>
                 <%= link_to image_tag("tom.png", alt: "tom",style:"width:40px;height:40px;"),
               '' %><%= gm.user.name  %> <%=gm.created_at  %>
+              <a class="messagedelete" href="delmg_<%=gm.id %>" style=""><i class="fa fa-trash" style="color:red;"></i></a>    
                 </div>
                 <div style="text-align:justify;font-size:18px;padding:1% 0;">
                     <div style="background-color:#0084ff;border-radius:15px;color:white;padding:7px;font-size:18px;display:inline-block;">
@@ -53,10 +99,12 @@
                     <% end %>
                     </div>                   
                                          
-                    <a href="delmg_<%=gm.id %>"><i class="fa fa-trash"></i></a>      
+                     
                 </div>
             </div>
         <% else %>
+            
+            <% anothermessagecount += 1 %>
             <div style="border-top:1px solid #EEE;border-bottom:1px solid #EEE;padding:1%;">
                 <div>
                     <img src="images/user1.jpg" style="width:40px;height:40px;"><%= gm.user.name%> <%=gm.created_at  %>
@@ -65,6 +113,7 @@
                     <% else %>
                         <i  onclick="gofavourite(this)" star_id="<%=gm.id %>" class="fa fa-star stars" style="float:right;"></i>
                     <% end %>
+                <i  onclick="replyfunction(this)" messagecount="<%= anothermessagecount %>" gmid="<%=gm.id %>" class="fa fa-reply-all reply text-primary" style="float:right;"><br><span id="replydemo" style="font-size:18px;">Reply</span></i>
                 </div>
                 <div style="text-align:justify;font-size:18px;padding:1% 0;">
                     <div style="background-color:#dfdfdf;border-radius:15px;color:black;padding:7px;font-size:18px;display:inline-block;">
@@ -74,7 +123,44 @@
                         <%= gm.message %> 
                     <% end %>
                     </div>
-                    <a href="delmg_<%=gm.id %>"><i class="fa fa-trash"></i></a>      
+                    <% gtmsize = 0 %>
+                    <% @gtm.each do |gtm| %>
+                        <% if gtm.groupmessage_id == gm.id %>    
+                            <% gtmsize += 1 %>
+                        <% end %>
+                    <% end %>
+                    <span>
+                        <% if gtmsize == 0 %>
+                        
+                        <% else %>
+                            <span style="margin-left:10px;font-size:18px;font-weight:bold;cursor:pointer;" anothermessagecount="<%= anothermessagecount %>" onclick="showthreadmessage(this)">Reply<span class="badge " style="background-color:red;color:white;margin-left:4px;"><%= gtmsize %></span></span>
+                        <% end %>
+                        
+                    </span>
+                    <hr class="replyhr">
+                    <div style="padding:10px 0 5px 0;" class="threadmessagebox">
+                    <ul style="list-style-type:none;">
+                    <% @gtm.each do |gtm| %>
+                        <% if gtm.groupmessage_id == gm.id %>    
+                            <% if gtm.user_id == session[:user]["id"] %>
+
+                                <li><img src="images/user1.jpg" style="width:40px;height:40px;"><%= gtm.user.name%> <%=gm.created_at  %><br><div style="margin-left:40px;background-color:#0084ff;border-radius:15px;color:white;padding:7px;font-size:18px;display:inline-block;">
+                                <%= gtm.message %></div></li>
+                            <% else %>
+                                <li><img src="images/user1.jpg" style="width:40px;height:40px;"><%= gtm.user.name%> <%=gm.created_at  %><br><div style="margin-left:40px;background-color:#dfdfdf;border-radius:15px;color:black;padding:7px;font-size:18px;display:inline-block;">
+                                <%= gtm.message %></div></li>
+                            <% end %>
+                            
+                        <% end %>
+                    <% end %>
+                    </ul>
+                    </div>
+                    <%= form_tag("/reply", method: "post",id:"replyform") do %>
+    
+                        <input type="text" name="message"  class="replytext form-control" placeholder="Reply" autofocus>
+                        <input type="hidden" class="gmid" name="groupmessage_id" class="gmid">
+                        <input type="submit" name="submit" style="display:none">
+                    <% end %>
                 </div>
             </div>
         <% end %>
@@ -111,6 +197,41 @@
                 document.getElementById("star_hidden").value = demo;
                 document.getElementById("demo").innerHTML = document.getElementById("star_hidden").value;
                 document.getElementById("form2").submit()
+            }
+            function onloadfunction(){
+                document.getElementById("messagebox").scrollTop = document.getElementById("messagebox").scrollHeight;
+
+            }
+            function replyfunction(a){
+                var count = a.getAttribute("messagecount");
+                var gmid = a.getAttribute("gmid");
+                var i;
+                for(i=0;i<count;i++){
+                    
+                    document.getElementsByClassName("replytext")[i].style.display = "none";
+                }
+                document.getElementsByClassName("replytext")[count-1].style.display = "block";
+                document.getElementsByClassName("gmid")[count-1].value = gmid;
+                var j;
+                for(j=0;j<count;j++){
+                    
+                    document.getElementsByClassName("replyhr")[j].style.display = "none";
+                }
+                document.getElementsByClassName("replyhr")[count-1].style.display = "block";
+                
+            }
+            function showthreadmessage(a){
+                var count = a.getAttribute("anothermessagecount");
+                if( document.getElementsByClassName("threadmessagebox")[count-1].style.display == "none"){
+                    document.getElementsByClassName("threadmessagebox")[count-1].style.display = "block";
+                }
+                else{
+                    document.getElementsByClassName("threadmessagebox")[count-1].style.display = "none";
+                }
+
+                
+                
+
             }
 </script>
 </body>

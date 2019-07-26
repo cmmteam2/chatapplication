@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_05_095518) do
+ActiveRecord::Schema.define(version: 2019_07_26_100807) do
 
   create_table "groupmessages", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.bigint "group_id"
@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 2019_07_05_095518) do
     t.boolean "favourite"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "favouritebyuserid"
     t.index ["group_id"], name: "index_groupmessages_on_group_id"
   end
 
@@ -52,6 +53,20 @@ ActiveRecord::Schema.define(version: 2019_07_05_095518) do
     t.index ["groupmessage_id"], name: "index_groupthreadmessages_on_groupmessage_id"
   end
 
+  create_table "helloworld1s", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+    t.string "title"
+    t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "helloworlds", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+    t.string "title"
+    t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.string "name"
     t.string "email"
@@ -72,6 +87,15 @@ ActiveRecord::Schema.define(version: 2019_07_05_095518) do
     t.index ["workspace_id"], name: "index_users_workspaces_on_workspace_id"
   end
 
+  create_table "workspaceinvites", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+    t.string "email"
+    t.boolean "confirm"
+    t.bigint "workspace_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["workspace_id"], name: "index_workspaceinvites_on_workspace_id"
+  end
+
   create_table "workspaces", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.string "name"
     t.integer "owner"
@@ -86,4 +110,5 @@ ActiveRecord::Schema.define(version: 2019_07_05_095518) do
   add_foreign_key "groupthreadmessages", "groupmessages"
   add_foreign_key "users_workspaces", "users"
   add_foreign_key "users_workspaces", "workspaces"
+  add_foreign_key "workspaceinvites", "workspaces"
 end

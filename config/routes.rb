@@ -1,4 +1,3 @@
-
 Rails.application.routes.draw do
   scope "(:locale)", locale: /#{I18n.available_locales.join("|")}/ do
   
@@ -14,6 +13,12 @@ Rails.application.routes.draw do
   
   get "/users/:id", to:"user#show"
   post "/users/:id", to:"user#uploadpic"
+
+  get "/deleteuser",to:"user#deleteuser"
+  post "/deleteuser",to:"user#deleteuser"
+  
+  get "/settingadmin",to:"user#settingadmin"
+  post "/settingadmin",to:"user#settingadmin"
 
   get "/workspace", to:"workspace#index"
   get "/createworkspace", to:"workspace#new"
@@ -50,7 +55,17 @@ Rails.application.routes.draw do
   get "/gostar",to:"group#ssss"
   post "/gostar",to:"group#gostar"
   get "/delmg_:id",to:"group#deletemessage"
+  
+  get "/invite_wsmember",to:"workspace#invite"
+  post "/invite_wsmember",to:"workspace#invite"
+  
+  get "/confirm",to:"workspace#confirm"
+
+  get "/removeworkspacemember",to:"workspace#removeworkspacemember"
+  post "/removeworkspacemember",to:"workspace#removeworkspacemember"
   resources :users
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  get "/reply",to:"group#reply"
+  post "/reply",to:"group#reply"
 end
 end

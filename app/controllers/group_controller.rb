@@ -21,6 +21,7 @@ class GroupController < ApplicationController
             @uhw = UsersWorkspace.where(:workspace_id => session[:user]["currentworkspace"])
             @group = Group.where(:workspace_id => session[:user]["currentworkspace"])
             @datalist_users = GroupsUser.where(:group_id=>params[:id])
+            @gtm = Groupthreadmessage.all
         end
 
         @mygroup = Group.find(params[:id])
@@ -33,6 +34,11 @@ class GroupController < ApplicationController
             gm = Groupmessage.new(group_id:params[:id],message:params[:message],user_id:session[:user]["id"],unread:"false",favourite:"false")
             gm.save
         end
+        redirect_back fallback_location: root_path
+    end
+    def reply
+        gtm = Groupthreadmessage.new(message:params[:message],groupmessage_id:params[:groupmessage_id],user_id:session[:user]["id"])
+        gtm.save
         redirect_back fallback_location: root_path
     end
     def edit
@@ -77,7 +83,13 @@ class GroupController < ApplicationController
     end
     def gostar
         gm = Groupmessage.find(params[:star_id])
-        gm.favourite = "true"
+            if gm.favourite == false or gm.favourite.nil?
+                gm.favourite = "true"
+                gm.favouritebyuserid = session[:user]["id"]
+            else
+                gm.favourite = "false"
+                gm.favouritebyuserid = "0"
+            end
         gm.save
         redirect_back fallback_location: root_path
     end

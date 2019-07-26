@@ -2,20 +2,48 @@ class SessionController < ApplicationController
     def index
         
         if session[:user]
-            @uhgs= GroupsUser.all
-            @uhw = UsersWorkspace.where(:workspace_id => session[:user]["currentworkspace"])
-            @group = Group.where(:workspace_id => session[:user]["currentworkspace"])
-            
-            @currentworkspace = UsersWorkspace.find_by(user_id: session[:user]["id"],workspace_id: session[:user]["currentworkspace"])
+            if params[:abc]
+                @favouritemsgs = Groupmessage.where("favourite = ? AND favouritebyuserid = ?", true, session[:user]["id"])
+                @isadmin = User.find_by(role:"1")
+                @users = User.page(params[:abc]).per(4)
+                @groups = Group.all
+                @workspaces = Workspace.all
+                @uhgs= GroupsUser.all
+                @uhw = UsersWorkspace.where(:workspace_id => session[:user]["currentworkspace"])
+                @group = Group.where(:workspace_id => session[:user]["currentworkspace"])
+                
+                @currentworkspace = UsersWorkspace.find_by(user_id: session[:user]["id"],workspace_id: session[:user]["currentworkspace"])
+                if session[:usr_id]
+                    @myworkspaces = UsersWorkspace.where(:user_id =>session[:usr_id])
+                end
+                session[:fullpath] = request.protocol
+                session[:fullpath] += request.host_with_port
+                session[:fullpath] += request.fullpath
+                session[:lan] = request.fullpath
+                render template:"home/index"
+            else
+                @favouritemsgs = Groupmessage.where("favourite = ? AND favouritebyuserid = ?", true, session[:user]["id"])
+                @isadmin = User.find_by(role:"1")
+                @users = User.page(1).per(4)
+                @groups = Group.all
+                @workspaces = Workspace.all
+                @uhgs= GroupsUser.all
+                @uhw = UsersWorkspace.where(:workspace_id => session[:user]["currentworkspace"])
+                @group = Group.where(:workspace_id => session[:user]["currentworkspace"])
+                
+                @currentworkspace = UsersWorkspace.find_by(user_id: session[:user]["id"],workspace_id: session[:user]["currentworkspace"])
+                if session[:usr_id]
+                    @myworkspaces = UsersWorkspace.where(:user_id =>session[:usr_id])
+                end
+                session[:fullpath] = request.protocol
+                session[:fullpath] += request.host_with_port
+                session[:fullpath] += request.fullpath
+                session[:lan] = request.fullpath
+                render template:"home/index"
+            end
+           
         end
-        if session[:usr_id]
-            @myworkspaces = UsersWorkspace.where(:user_id =>session[:usr_id])
-        end
-        session[:fullpath] = request.protocol
-        session[:fullpath] += request.host_with_port
-        session[:fullpath] += request.fullpath
-        session[:lan] = request.fullpath
-        render template:"home/index"
+        
     end
     def login
         render template:"session/login"
@@ -23,8 +51,14 @@ class SessionController < ApplicationController
     def create
         user = User.find_by(email: params[:email].downcase)
         if user.nil?
-                flash[:danger] = "emailnotfound"
-                redirect_back fallback_location: root_path
+                wi = Workspaceinvite.find_by(email:params[:email].downcase,confirm:"false")
+                if wi.nil?
+                    flash[:danger] = "emailnotfound"
+                    redirect_back fallback_location: root_path
+                else
+                   session[:inviteemail] = params[:email]
+                    redirect_to controller: 'workspace', action: 'confirm'
+                end
         else
                 workspaces = Workspace.where(:owner => user.id)
                 currentworkspace = UsersWorkspace.find_by(user_id:user.id,workspace_id:user.currentworkspace)
@@ -48,7 +82,6 @@ class SessionController < ApplicationController
                             session[:workspaces] = workspaces
                             session[:user_id] = user.id
                             session[:usr_id] = user.id
-                            session[:user_name] = user.name
                             session[:user]= user
                             #session[:uhw] = uhw
                             a = "#{session[:fullpath]}"
