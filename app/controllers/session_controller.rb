@@ -24,7 +24,7 @@ class SessionController < ApplicationController
             else
                 @favouritemsgs = Groupmessage.where("favourite = ? AND favouritebyuserid = ?", true, session[:user]["id"])
                 @isadmin = User.find_by(role:"1")
-                @users = User.page(1).per(4)
+                @users = User.page(params[:page]).per(4)
                 @groups = Group.all
                 @workspaces = Workspace.all
                 @uhgs= GroupsUser.all
@@ -74,10 +74,10 @@ class SessionController < ApplicationController
                 workspaces = Workspace.where(:owner => user.id)
                 currentworkspace = UsersWorkspace.find_by(user_id:user.id,workspace_id:user.currentworkspace)
                 if currentworkspace.nil?
-                        render template:"workspace/new"
-                        session[:user]= user
-                        
-                        session[:user_id] = user.id
+                    session[:user]= user            
+                    session[:user_id] = user.id
+            
+                    render template:"workspace/new"
                     else
                         user.currentworkspace = currentworkspace.workspace_id
                         user.save

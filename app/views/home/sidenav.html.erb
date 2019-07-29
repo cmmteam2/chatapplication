@@ -117,7 +117,12 @@
         <% end %>
       <% end %>
       <% if mygp == 1 %>
-        <li><a href="<%= session[:fullpath]%>/views_<%=a.id %>"><%= a.name %></a></li>
+        
+        <% if a.types == "private" %>
+          <li><a href="<%= session[:fullpath]%>/views_<%=a.id %>"><%= a.name %><span style="color:white;float:right;"><i class="fa fa-lock" style="font-size:18px;cursor:pointer;"></i></span></a></li>
+        <% else %>
+          <li><a href="<%= session[:fullpath]%>/views_<%=a.id %>"><%= a.name %><span style="color:white;float:right;"><i class="fa fa-globe" style="font-size:18px;cursor:pointer;"></i></span></a></li>
+        <% end %>
       <% else %>
         <% if a.types == "public" %>
           <li><a href="<%= session[:fullpath]%>/views_<%=a.id %>"><%= a.name %></a></li>
