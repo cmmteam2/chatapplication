@@ -9,7 +9,7 @@
             <label style="font-size:26px" ><%= t 'wsinvitemember' %></label><br><br>
             <lable style="font-size:18px"><%= t 'email' %></label>
             <%= form_tag("/invite_wsmember", method: "post") do %>
-            <input class="form-control" type="text" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" style="">
+            <input class="form-control" type="text" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" style="" required>
             
             <br>
             <br>

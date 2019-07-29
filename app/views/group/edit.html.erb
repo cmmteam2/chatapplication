@@ -232,11 +232,11 @@ input:checked + .slider:before {
     <script>
         function public_private(){
             if(document.getElementById("type_cbx").checked){
-                document.getElementById("demo").innerHTML = "<%= t 'public' %>";
-                document.getElementById("cbx_hidden").value = "<%= t 'public' %>";
+                document.getElementById("demo").innerHTML = "public";
+                document.getElementById("cbx_hidden").value = "public";
             }
             else{
-                document.getElementById("demo").innerHTML = "<%= t 'private' %>";
+                document.getElementById("demo").innerHTML = "private";
                 document.getElementById("cbx_hidden").value = "private";
             }
         }

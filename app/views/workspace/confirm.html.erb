@@ -18,6 +18,7 @@ a.language:hover{
             <label style="font-size:26px" ><%= t 'signup' %></label><br><br>
             <lable style="font-size:18px"></label>
             <%= form_tag("/signup", method: "post") do %>
+                
                 <div class="form-group">
                 <%=label_tag t 'name' %>
                     <input id="a" type="text" name="name" class="form-control">

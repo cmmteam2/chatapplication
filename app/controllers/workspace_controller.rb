@@ -1,9 +1,10 @@
 class WorkspaceController < ApplicationController
     def index
-        
+        logger.info "-----Index------"
         @workspace =  Workspace.all
     end
     def create
+        logger.info "-----Create------"
         w = Workspace.new(name:params[:name],owner:session[:user]["id"])
         
         w.save
@@ -33,9 +34,11 @@ class WorkspaceController < ApplicationController
         
     end
     def edit
+        logger.info "-----Edit #{params[:email]}------"
         @workspace = Workspace.find(params[:id])
     end
     def update
+        logger.info "-----Update #{params[:id]}------"
         w = Workspace.find(params[:id])
         w.name = params[:name]
         session[:currentworkspace] = w.name
@@ -45,21 +48,20 @@ class WorkspaceController < ApplicationController
         redirect_to "#{a}"
     end
     def destroy
-        
-       
+        logger.info "-----Destroy #{params[:id]}------"
         @workspace = Workspace.find(params[:id])
         @workspace.destroy
-       
-        
+
         session.delete(:user_id)
         session.delete(:user)
     
-        
         a = "#{session[:fullpath]}"
         redirect_to "#{a}"
 
     end
     def invite
+        logger.info "----- Invite #{params[:id]}------"
+
         if params[:email]
             wi = Workspaceinvite.new(email:params[:email],confirm:"false",workspace_id:session[:user]["currentworkspace"])
             if wi.save
@@ -76,6 +78,7 @@ class WorkspaceController < ApplicationController
     def confirm
     end
     def removeworkspacemember
+        logger.info "-----Remove Workspacemember #{params[:id]}------"
         uhw = UsersWorkspace.find(params[:uhw_id])
         if uhw.destroy
             flash[:notice] =  "successfullydelete"

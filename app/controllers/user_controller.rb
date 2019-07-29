@@ -1,14 +1,16 @@
 class UserController < ApplicationController
     #before_action:logged_in_user, only:[:new, :show]
     def new
+        logger.info "-----New------"
+
         a = "#{session[:fullpath]}"
         redirect_to "#{a}"
     end
     def create
-       
+        logger.info "-----Create------"
         user = User.new(name:params[:name],email:params[:email].downcase,password:params[:password])
         
-        winvite = Workspaceinvite.find_by(email:user.email)
+        winvite = Workspaceinvite.find_by(email:user.email,confirm:"false")
         if user.save
 =begin
             workspace = Workspace.new(name:"CyberMissions Myanmar",owner:user.id)
@@ -27,36 +29,42 @@ class UserController < ApplicationController
             session[:user] = user
             session[:user_id] = user.id
                             
-            if winvite.nil?
+            if winvite.nil? 
                 redirect_to "/createworkspace"
             else
-
-                user.currentworkspace = winvite.workspace_id
-                userid = user.id
-                user.save
-                
-                u = User.find(session[:user]["id"])
-                session[:user] = u
-             
-                uhw = UsersWorkspace.new(user_id:userid,workspace_id:winvite.workspace_id)
-                uhw.save
-                currentworkspace = UsersWorkspace.find_by(user_id:session[:user]["id"])
-                
-                session[:usr_id] = userid
-                session[:currentworkspace] = currentworkspace.workspace.name
-                session[:currentworkspace_id] = currentworkspace.workspace.id
-                session[:workspace_owner] = currentworkspace.workspace.owner
-                flash[:success] = "Successfully Created."
-
-                @uhgs= GroupsUser.all
-                @uhw = UsersWorkspace.where(:workspace_id => session[:user]["currentworkspace"])
-                @group = Group.where(:workspace_id => session[:user]["currentworkspace"])
+                if winvite.confirm == false
+                    user.currentworkspace = winvite.workspace_id
+                    userid = user.id
+                    user.save
                     
-                @currentworkspace = UsersWorkspace.find_by(user_id: session[:user]["id"],workspace_id: session[:user]["currentworkspace"])
+                    winvite.confirm = true
+                    winvite.save
+                    u = User.find(session[:user]["id"])
+                    session[:user] = u
+                 
+                    uhw = UsersWorkspace.new(user_id:userid,workspace_id:winvite.workspace_id)
+                    uhw.save
+                    currentworkspace = UsersWorkspace.find_by(user_id:session[:user]["id"])
+                    
+                    session[:usr_id] = userid
+                    session[:currentworkspace] = currentworkspace.workspace.name
+                    session[:currentworkspace_id] = currentworkspace.workspace.id
+                    session[:workspace_owner] = currentworkspace.workspace.owner
+                    flash[:success] = "Successfully Created."
+    
+                    @uhgs= GroupsUser.all
+                    @uhw = UsersWorkspace.where(:workspace_id => session[:user]["currentworkspace"])
+                    @group = Group.where(:workspace_id => session[:user]["currentworkspace"])
+                        
+                    @currentworkspace = UsersWorkspace.find_by(user_id: session[:user]["id"],workspace_id: session[:user]["currentworkspace"])
+                    
+                    session[:uhw] = @uhw
+                    a = "#{session[:fullpath]}"
+                    redirect_to "#{a}"
+                else
+                    
+                end
                 
-                session[:uhw] = @uhw
-                a = "#{session[:fullpath]}"
-                redirect_to "#{a}"
                 
             end
             
@@ -65,6 +73,7 @@ class UserController < ApplicationController
         end
     end
     def show
+        logger.info "-----Show #{params[:id]}------"
         @user = User.find(params[:id])
     end
     def uploadpic
@@ -96,6 +105,7 @@ class UserController < ApplicationController
 =end
     end
     def deleteuser
+        logger.info "-----Delete User #{params[:id]}------"
         user = User.find(params[:user_id])
         if user.destroy
             flash[:danger] = "successfullydelete"
@@ -105,6 +115,7 @@ class UserController < ApplicationController
         end
     end
     def settingadmin
+        logger.info "-----Setting Admin #{params[:email]}------"
         user = User.find(params[:adminid])
         user.role = "1"
         if user.save

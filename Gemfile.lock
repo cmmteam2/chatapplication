@@ -126,13 +126,13 @@ GEM
     minitest (5.11.3)
     msgpack (1.2.10-x64-mingw32)
     msgpack (1.2.10-x86-mingw32)
-    mysql2 (0.5.2-x64-mingw32)
-    mysql2 (0.5.2-x86-mingw32)
     nio4r (2.3.1)
     nokogiri (1.10.3-x64-mingw32)
       mini_portile2 (~> 2.4.0)
     nokogiri (1.10.3-x86-mingw32)
       mini_portile2 (~> 2.4.0)
+    pg (1.1.4-x64-mingw32)
+    pg (1.1.4-x86-mingw32)
     popper_js (1.14.5)
     public_suffix (3.1.0)
     puma (3.12.1)
@@ -243,7 +243,7 @@ DEPENDENCIES
   jbuilder (~> 2.5)
   jquery-rails (~> 4.3, >= 4.3.5)
   kaminari
-  mysql2 (>= 0.4.4, < 0.6.0)
+  pg
   puma (~> 3.11)
   rails (~> 5.2.3)
   rails-i18n
