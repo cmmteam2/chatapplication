@@ -42,6 +42,17 @@ class SessionController < ApplicationController
                 render template:"home/index"
             end
            
+        else
+                @isadmin = User.find_by(role:"1")
+                @users = User.all
+                @groups = Group.all
+                @workspaces = Workspace.all
+                @uhgs= GroupsUser.all
+                
+                if session[:usr_id]
+                    @myworkspaces = UsersWorkspace.where(:user_id =>session[:usr_id])
+                end
+                render template:"home/index"
         end
         
     end
