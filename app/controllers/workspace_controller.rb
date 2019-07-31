@@ -21,7 +21,13 @@ class WorkspaceController < ApplicationController
         session[:currentworkspace_id] = currentworkspace.workspace.id
         session[:workspace_owner] = currentworkspace.workspace.owner
         flash[:success] = "Successfully Created."
-
+        @favouritemsgs = Groupmessage.where("favourite = ? AND favouritebyuserid = ?", true, session[:user]["id"])
+        @isadmin = User.find_by(role:"1")
+        @users = User.page(params[:page]).per(4)
+        @totalusers = User.all
+        @groups = Group.all
+        @workspaces = Workspace.all
+                    
         @uhgs= GroupsUser.all
         @uhw = UsersWorkspace.where(:workspace_id => session[:user]["currentworkspace"])
         @group = Group.where(:workspace_id => session[:user]["currentworkspace"])

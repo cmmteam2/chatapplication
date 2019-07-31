@@ -14,9 +14,9 @@ Rails.application.routes.draw do
   get "/users/:id", to:"user#show"
   post "/users/:id", to:"user#uploadpic"
 
-  get "/deleteuser",to:"user#deleteuser"
-  post "/deleteuser",to:"user#deleteuser"
-  
+  #get "/deleteuser",to:"user#deleteuser"
+  #post "/deleteuser",to:"user#deleteuser"
+  get "/deleteuser/:id",to:"user#destroy"
   get "/settingadmin",to:"user#settingadmin"
   post "/settingadmin",to:"user#settingadmin"
 

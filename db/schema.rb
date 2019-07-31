@@ -10,11 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_26_100807) do
+ActiveRecord::Schema.define(version: 2019_07_30_025706) do
 
   create_table "groupmessages", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.bigint "group_id"
-    t.string "message"
+    t.string "message", limit: 1000
     t.integer "user_id"
     t.string "attachment"
     t.boolean "unread"

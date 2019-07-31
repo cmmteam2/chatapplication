@@ -11,6 +11,7 @@ class UserController < ApplicationController
         user = User.new(name:params[:name],email:params[:email].downcase,password:params[:password])
         
         winvite = Workspaceinvite.find_by(email:user.email,confirm:"false")
+        if params[:password] == params[:confirm_password]
         if user.save
 =begin
             workspace = Workspace.new(name:"CyberMissions Myanmar",owner:user.id)
@@ -69,8 +70,14 @@ class UserController < ApplicationController
             end
             
         else
-            render html:"NOT"
+            flash[:danger] = "notsuccessful"
+            redirect_to "/"
         end
+    else
+        flash[:danger] = "pwdoesnotmatch"
+        a = "#{session[:fullpath]}"
+             redirect_to "#{a}"
+    end
     end
     def show
         logger.info "-----Show #{params[:id]}------"
@@ -104,15 +111,13 @@ class UserController < ApplicationController
         #render html:"#{params[:picture]} #{params[:userid]}"
 =end
     end
-    def deleteuser
-        logger.info "-----Delete User #{params[:id]}------"
-        user = User.find(params[:user_id])
-        if user.destroy
-            flash[:danger] = "successfullydelete"
-            redirect_back fallback_location: root_path
-        else
-            render html:"error"
-        end
+    def destroy
+       
+        
+        user = User.find(params[:id])
+        user.destroy
+        redirect_back fallback_location: root_path
+       
     end
     def settingadmin
         logger.info "-----Setting Admin #{params[:email]}------"

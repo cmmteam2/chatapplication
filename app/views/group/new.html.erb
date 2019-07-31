@@ -86,8 +86,8 @@ input:checked + .slider:before {
 </head>
 <body>
     <div style="background-color:white;width:80%;display:block;margin:0 auto;font-family:Arial, sans-serif;padding:5%;">
-        <h3>Create a Channel</h3>
-        <p style="font-size:18px;">Channel are where your memebers communicate. They're best when organized around a topic - #marketing, for example. <a href="#">Learn more</a> about how to create and name your channels for your team.
+    <h3><%= t 'createchannel' %></h3>
+        <p style="font-size:18px;">
         </p>
         <%= form_tag("/createchannel", method: "post") do %>
         
@@ -95,19 +95,19 @@ input:checked + .slider:before {
             <input id="type_cbx" name="cbx" value="s" type="checkbox" onchange="public_private()" checked>
             <span class="slider round"></span>
         </label>
-        <span id="demo"><b>Public</b></span>
-            <input type="hidden" name="cbx_hidden" value="public" id="cbx_hidden">
+        <span id="demo"><b><%= t 'public' %></b></span>
+            <input type="hidden" name="cbx_hidden" value="<%= t 'public' %>" id="cbx_hidden">
             <div class="form-group">
-                <%=label_tag(:q,"Name")  %> 
+            <%=label_tag t 'name' %>
                 <input id="a" type="text" name="name" class="form-control">
             </div>  
                     
             <div class="form-group">
-              <%=label_tag(:q,"Purpose")  %> 
+            <%=label_tag t 'purpose' %>
               <input type="text" name="email" class="form-control">
             </div>
             <div class="form-group">
-              <%=label_tag(:q,"Send invites to:")  %> 
+            <%=label_tag t 'sendinviteto' %>
               <input type="text" name="invites" id="invites" class="form-control">
             </div>
             <div class="form-group">
@@ -122,10 +122,10 @@ input:checked + .slider:before {
                 <div class="col-sm-2">
                     <% i=0 %>
                     <% @uhw.each do |a| %>
-                      <div class="addinvites" style="padding:2%;height:70px;font-size:18px;"><div class="btn btn-primary form-control" onclick="addinvites(this)" index="<%= i %>" value="<%= a.user.email %>">INVITE</div>
+                      <div class="addinvites" style="padding:2%;height:70px;font-size:18px;"><div class="btn btn-primary form-control" onclick="addinvites(this)" index="<%= i %>" value="<%= a.user.email %>"> <%=t ('invite') %></div>
                       </div>
                     
-                      <div class="cancelinvites" style="padding:2%;height:70px;font-size:18px;"><div class="btn btn-default form-control" onclick="cancelinvites(this)" index="<%= i %>" value="<%= a.user.email %>">CANCEL</div>
+                      <div class="cancelinvites" style="padding:2%;height:70px;font-size:18px;"><div class="btn btn-default form-control" onclick="cancelinvites(this)" index="<%= i %>" value="<%= a.user.email %>"> <%=t ('cancel') %></div>
                       </div>
                       
                       <% i = i+1 %>
@@ -138,10 +138,10 @@ input:checked + .slider:before {
             <div class="form-group" style="padding:0 30%;">
             <div class="row">
                 <div class="col-sm-6">
-                <a href="<%= session[:fullpath]%>"><input class="form-control" type="button" value="<%= t 'cancel' %>" /></a>
+                <a href="<%= session[:fullpath]%>"><input class="form-control" type="button" value="<%= t ('cancel') %>" /></a>
                 </div>
                 <div class="col-sm-6">
-                    <input type="submit" value="CREATE" class="form-control" > 
+                    <input type="submit" value=" <%= t ('create') %>" class="form-control" > 
                 </div>
             </div>
               <%  end  %>
@@ -150,11 +150,11 @@ input:checked + .slider:before {
     <script>
         function public_private(){
             if(document.getElementById("type_cbx").checked){
-                document.getElementById("demo").innerHTML = "public";
+                document.getElementById("demo").innerHTML = "<%= t 'public' %>";
                 document.getElementById("cbx_hidden").value = "public";
             }
             else{
-                document.getElementById("demo").innerHTML = "private";
+                document.getElementById("demo").innerHTML = "<%= t 'private' %>";
                 document.getElementById("cbx_hidden").value = "private";
             }
         }

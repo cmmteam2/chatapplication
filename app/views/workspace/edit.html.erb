@@ -5,7 +5,7 @@
         <label style="font-size:26px" ><%= t 'editworkspace' %></label><br><br>
         <lable style="font-size:18px"><%= t 'name' %></label>
         <%= form_tag("/editworkspace_#{@workspace.id}", method: "post") do %>
-        <input class="form-control" type="text" value="<%= @workspace.name %>" name="name" style="">
+        <input class="form-control" type="text" value="<%= @workspace.name %>" name="name" style="" required>
         <br>
         <br>
         <div>

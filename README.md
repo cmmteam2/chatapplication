@@ -48,13 +48,3 @@ Heroku
 10. git push heroku master
 11. heroku run rails db:migrate
 
-[Heroku: PG::ConnectionBad: could not connect to server: Connection refused]
-============================================================================
-
-https://devcenter.heroku.com/articles/heroku-postgresql#designating-a-primary-database
-https://stackoverflow.com/questions/32815705/heroku-pgconnectionbad-could-not-connect-to-server-connection-refused/32815724#32815724
-
-- heroku pg:info
-- 1) heroku addons:create heroku-postgresql
-- 2) heroku config --app your_app_name
-- 3) heroku run rails db:migrate

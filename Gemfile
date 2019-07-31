@@ -13,10 +13,9 @@ gem 'will_paginate',           '3.1.6'
 gem 'bootstrap-will_paginate', '1.0.0'
 gem 'kaminari'
 #gem 'mysql2', '>= 0.4.4', '< 0.6.0'
-gem 'pg'
 # Use Puma as the app server
-
 gem 'puma', '~> 3.11'
+
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets

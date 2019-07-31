@@ -4,7 +4,7 @@
             <label style="font-size:26px" ><%= t 'createnewworkspace' %></label><br><br>
             <lable style="font-size:18px"><%= t 'name' %></label>
             <%= form_tag("/createworkspace", method: "post") do %>
-            <input class="form-control" type="text" name="name" style="">
+            <input class="form-control" type="text" name="name" style="" required>
             <br>
             <br>
             <div>

@@ -26,7 +26,9 @@
 
     }
     #favouritemsgbox{
-      display:none;
+      
+      height:1px;
+      overflow:hidden;
     }
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
@@ -49,7 +51,7 @@
                                 <i class="fa fa-user text-success" style="font-size:64px;"></i>
                             </div>
                             <div class="col-sm-6" style="text-align:center;padding:5% 0 0 1%;">
-                                <span style="font-size:36px;color:black;font-weight:bold;"></span><br>
+                                <span style="font-size:36px;color:black;font-weight:bold;"><%= @totalusers.size %></span><br>
                                 <span style="font-size:18px;color:black;"><%=t('totalusers')%></span>
                             </div>
                       </div>
@@ -116,7 +118,8 @@
                 <% end %>
                 </td>
                 <td>
-                <span style="color:red;"><i class="fa fa-trash" onclick="deleteuser(this)" style="font-size:24px;cursor:pointer;" data-toggle="modal" data-target="#userdelete" userid="<%= user.id %>"></i></span>
+                <a href="/deleteuser/<%= user.id %>">
+<span style="color:red;"><i class="fa fa-trash" onclick="deleteuser(this)" style="font-size:24px;cursor:pointer;" data-toggle="modal" data-target="#userdelete" userid="<%= user.id %>"></i></span></a>
                 </td>
             </tr>
             
@@ -139,12 +142,13 @@
                   <div class="modal-body">
                   <%=t ('areyousurewanttodeleteuser')%>
                   </div>
+                  
                   <div class="modal-footer">
-                  <%= form_tag("/deleteuser", method: "post") do %>
+                 
                     <input class="form-control" type="hidden"  name="user_id" id="user_id">
                     <input type="submit" name="submit" class="btn btn-danger" style="background-color:red;" value="<%= t 'kick' %>" >
                     
-                  <% end %>
+                  
                   </div>
                 </div>
                 
@@ -181,6 +185,7 @@
 
     <% else %>
                 <div class="row">
+                <a href="<%= session[:fullpath]%>/invite_wsmember" style="text-decoration:none;">
                 <div class="col-md-4">
                     <div style="box-shadow:4px 4px 16px black;width:100%;display:block;margin:0 auto;background-color:white;padding:5% 0 0 0;">
                           <div class="row" style="margin-bottom:10px;">
@@ -188,15 +193,17 @@
                                     <i class="fa fa-user text-success" style="font-size:64px;"></i>
                                 </div>
                                 <div class="col-sm-6" style="text-align:center;padding:5% 0 0 1%;">
-                                    <span style="font-size:36px;color:black;font-weight:bold;"></span><br>
+                                    <span style="font-size:36px;color:black;font-weight:bold;"><%= @totalusers.size %></span><br>
                                     <span style="font-size:18px;color:black;"><%=t('totalusers')%></span>
                                 </div>
                           </div>
                           <div style="">
-                              <a href="<%= session[:fullpath]%>/invite_wsmember"><input type="button" value="Invite Users" class="btn btn-success form-control" style="display:block;margin:0 auto;" ></a>
+                              <input type="button" value="<%=t('inviteusers')%>" class="btn btn-success form-control" style="display:block;margin:0 auto;" >
                           </div>
                     </div>
                 </div>
+                </a>
+                <a href="<%= session[:fullpath]%>/createworkspace" style="text-decoration:none;">
                 <div class="col-md-4">
                     <div style="box-shadow:4px 4px 16px black;width:100%;display:block;margin:0 auto;background-color:white;padding:5% 0 0 0;">
                           <div class="row" style="margin-bottom:10px;">
@@ -209,10 +216,12 @@
                                 </div>
                           </div>
                           <div style="">
-                              <a href="<%= session[:fullpath]%>/createworkspace"><input type="button" value="Create Workspace" class="btn btn-danger form-control" style="display:block;margin:0 auto;" ></a>
+                              <input type="button" value="<%=t('createworkspace')%>" class="btn btn-danger form-control" style="display:block;margin:0 auto;" >
                           </div>
                     </div>
                 </div>
+                </a>
+                <a href="<%= session[:fullpath]%>/createchannel" style="text-decoration:none;">
                 <div class="col-md-4">
                     <div style="box-shadow:4px 4px 16px black;width:100%;display:block;margin:0 auto;background-color:white;padding:5% 0 0 0;">
                           <div class="row" style="margin-bottom:10px;">
@@ -225,12 +234,13 @@
                                 </div>
                           </div>
                           <div style="">
-                            <a href="<%= session[:fullpath]%>/createchannel"><input type="button" value="Create Group" class="btn btn-primary form-control" style="display:block;margin:0 auto;" ></a>
+                            <input type="button" value="<%=t('creategroup')%>" class="btn btn-primary form-control" style="display:block;margin:0 auto;" >
                           </div>
                     </div>
                 </div>
+                </a>
             </div>
-
+            
 
             <hr>
             <div style="background-color:white;color:black;">
@@ -300,8 +310,8 @@
           <div style="font-size:18px;padding:1% 0 1% 1%;" class="bg-info" onclick="showfavouritemsg()">
           <span onclick="showfavouritemsg()" class="text-success" style="font-weight:bold;cursor:pointer;" ><i class="fa fa-star text-success" ></i>&nbsp<%=t('myfavouritemsgs')%></span><span style="float:right;cursor:pointer;margin-right:20px;font-weight:bold;" id="show_hide" class="text-success" onclick="showfavouritemsg()"><%=t('show')%></span>
           </div>
-          <ul style="list-style-type:none;">
-          <div id="favouritemsgbox" style="padding:2%;" >
+          <ul style="list-style-type:none;" id="favouritemsgbox">
+          <div  style="padding:2%;" >
           
                 <% @favouritemsgs.each do |msg| %>
                   <li>
@@ -364,11 +374,13 @@
     
 
         <div style="">
-          <%= link_to image_tag("a512.png", alt: "background image",style:"width:80%;display:block;margin:0 auto;"),
+          <%= link_to image_tag("a512.png", alt: "background image",style:"width:80%;display:block;margin:0 auto;padding-top:10%;"),
           '' %>
+          <!--
           <div style="width:80%;display:block;margin:0 auto;padding:40px;font-family:American Typewriter,serif;font-size:25px;letter-spacing:1px;color:blue;">
         <%= t 'hello' %> 
           </div>
+          -->
         </div>
     </div>
     <div class="col-md-6" id="bgdiv" style="height:100%;font-size:18px;padding:10% 0 5% 0;font-family:Stencil Std, fantasy;position:absolute;top:0;bottom:0;right:0;background-color:white;" >
@@ -380,23 +392,23 @@
         <%= form_tag("/signup", method: "post") do %>
         <div class="form-group">
         <%=label_tag t 'name' %>
-            <input id="a" type="text" name="name" class="form-control">
+            <input id="a" type="text" name="name" class="form-control" required>
         </div>  
                 
         <div class="form-group">
         <%=label_tag t 'email' %>
-          <input type="text" name="email" class="form-control">
+          <input type="text"  name="email" class="form-control" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required>
         </div>
         <div class="form-group">
         <%=label_tag t 'pw' %>
-          <input type="password" name="password" class="form-control">
+          <input type="password" name="password" class="form-control" pattern="[0-9]*.{8,}" title="at least 8 or more characters" required>
         </div>
         <div class="form-group">
         <%=label_tag t 'confirmpw' %>
-          <input type="password" name="confirm_password" class="form-control">
+          <input type="password" name="confirm_password" class="form-control" pattern="[0-9]*.{8,}" title="at least 8 or more characters" required>
         </div>
         <div style="text-align:center;" class="form-group">
-        <input type="submit" name="submit" value="<%= t 'signup' %>" class="form-control btn btn-success">
+        <input type="submit" name="submit" value="<%= t 'signup' %>" class="form-control btn btn-success" required>
          
           <%  end  %>
         </div>
@@ -431,12 +443,12 @@
     //document.getElementById("myform").style.display = "none";
     }
     function showfavouritemsg(){
-        if(document.getElementById("favouritemsgbox").style.display == "none"){
-          document.getElementById("favouritemsgbox").style.display = "block";
+        if(document.getElementById("favouritemsgbox").style.height == "1px"){
+          document.getElementById("favouritemsgbox").style.height = "100%";
           document.getElementById("show_hide").innerHTML = "<%= t 'hide' %>";
         }
       else{
-        document.getElementById("favouritemsgbox").style.display = "none";
+        document.getElementById("favouritemsgbox").style.height = "1px";
         document.getElementById("show_hide").innerHTML = "<%= t 'show' %>";
       }
     }
